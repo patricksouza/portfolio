@@ -19,10 +19,9 @@ body{
 
 
 .container{
-  height:70%;
-  border: 1px solid  #DDDDDD ;
-  background-color:#3D9970;
-  
+  	height:70%;
+  	border: 1px solid  #DDDDDD ;
+  	background-color:#3D9970;
 }
 
 img{
@@ -57,7 +56,7 @@ p{
 
 
 .topmenu{
-    border: 7px solid  #DDDDDD ;
+    	border: 4px solid  #DDDDDD ;
 	overflow: hidden;
 	background-color:#3D9970;
 }
