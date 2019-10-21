@@ -1,0 +1,22 @@
+body{
+	background: #232526;  /* fallback for old browsers */
+}
+
+.border{
+    border-color: grey !important;
+    border-style: solid;
+    border-radius: 5px;
+    width: 600px;
+    height: 400px;
+    box-shadow: 0px 0px 1px 1px rgba(0,0,0,2);
+}
+
+.ball{
+	border-color: red !important;
+    border-style: solid;
+}
+
+#status{
+	color: white;
+	font-weight: bold;
+}
