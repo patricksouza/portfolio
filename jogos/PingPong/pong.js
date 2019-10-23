@@ -1,16 +1,27 @@
 const canvas = document.getElementById("pong");
-const status = document.getElementById("status");
-//Pega o conteudo do elemento, no caso, do canvas
-const context = canvas.getContext("2d");
+const btnStatus = document.getElementById("btnStatus");//Id o botão de pausar
+const context = canvas.getContext("2d");//Pega o conteudo do elemento, no caso, do canvas
+let scoreP1 = document.getElementById("scoreP1");
+let scoreCom = document.getElementById("scoreCom");
+
 let paused = true;
+let strikeStatus = false;
 
 window.addEventListener('keydown', function(e){
-    var key = e.keyCode;
-    if(key === 80){
-        pauseGame();
+    let key = e.keyCode;
+     if(key === 80){
+        pauseGame(true);
     }
+    else if(key === 32){
+        strikeStatus = true;
+    }
+
+    
 });
 
+
+
+///Efeitos sonoros dos jogos
 let scoreFX = new Audio();
 let ballFX = new Audio();
 let pauseFX = new Audio();
@@ -21,7 +32,10 @@ ballFX.src = "efeitos/ball.wav";
 pauseFX.src = "efeitos/pausado.mp3";
 unpauseFX.src = "efeitos/resumo.mp3";
 
-//Objetos/////////////
+
+
+
+///Objetos
 
 const user = {
     x : 10,
@@ -59,25 +73,62 @@ const ball = {
     color: "ORANGE"
 }
 
-//////////////////////////////
 
 
-//Funções//////////////////////
+///Funções de regras de negócio
 
-function pauseGame(){
-    if(!paused){
+function pauseGame(statusGame){
+    if(!paused || !statusGame){
         paused = true;
-        status.innerHTML = "PAUSADO";
+        status.innerHTML = "";
+        btnStatus.innerHTML="Continuar";
         canvas.removeEventListener("mousemove",movePaddle);
         pauseFX.play();
     }
-    else if(paused){
+    else if(paused || statusGame){
         paused = false;
         status.innerHTML = "";
+        btnStatus.innerHTML="Pausar";
         canvas.addEventListener("mousemove",movePaddle);
         unpauseFX.play();
     }
-}  
+}
+
+function resetBall(){
+    ball.x = canvas.width/2;
+    ball.y = canvas.height/2;
+    ball.speed = 5;
+    ball.velocityX = - ball.velocityX;
+}
+
+
+function collision(b,p){
+    //p = player
+    p.top = p.y;
+    p.bottom = p.y+ p.height;
+    p.left = p.x;
+    p.right = p.x + p.width;
+
+    //b = ball
+    b.top = b.y - b.radius;
+    b.bottom = b.y + b.radius;
+    b.left = b.x - b.radius;
+    b.right = b.x + b.radius; 
+
+    return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;
+}
+
+function movePaddle(evt){
+    let rect = canvas.getBoundingClientRect();
+    user.y = evt.clientY - rect.top - user.height/2 ;
+}
+
+function strike(){
+    console.log("OK");
+}
+
+///Funções gráficas
+  
 
 function drawRect(x,y,w,h,cor){
     context.fillStyle = cor;
@@ -92,7 +143,6 @@ function drawCircle(x,y,r,cor){
     context.arc(x,y,r,0,Math.PI*2,false);
     context.closePath();
     context.fill();
-    //context.setAttribute("id","ball");
 }
 
 
@@ -109,44 +159,22 @@ function drawNet(){
     }
 }
 
-function resetBall(){
-    ball.x = canvas.width/2;
-    ball.y = canvas.height/2;
-    ball.speed = 5;
-    ball.velocityX = - ball.velocityX;
-}
-
-function collision(b,p){
-    //p = player
-    p.top = p.y;
-    p.bottom = p.y+ p.height;
-    p.left = p.x;
-    p.right = p.x + p.width;
-
-    //b = ball
-    b.top = b.y - b.radius;
-    b.bottom = b.y + b.radius;
-    b.left = b.x - b.radius;
-    b.right = b.x + b.radius; 
-
-    return p.left < b.right && p.top < b.bottom && p.right > b.left && p.bottom > b.top;}
-
-function movePaddle(evt){
-    let rect = canvas.getBoundingClientRect();
-    user.y = evt.clientY - rect.top - user.height/2 ;
-    //console.log(evt.clientY);
-}
 
 
+
+
+
+///Funções para a criação de elementos na tela
 function update(){
-    
     if(ball.x - ball.radius <0){
         pc.score ++;
+        scoreCom.innerHTML = pc.score;
         scoreFX.play();
         resetBall();
     }
     else if(ball.x + ball.radius > canvas.width){
         user.score++;
+        scoreP1.innerHTML = user.score;
         scoreFX.play();
         resetBall();
     }
@@ -155,15 +183,25 @@ function update(){
     ball.y += ball.velocityY;
 
 
-    pc.y +=(ball.y - (pc.y + pc.height/2)) * 0.5;
+    pc.y +=(ball.y - (pc.y + pc.height/2)) * 0.1;
     //user.y +=(ball.y - (user.y + user.height/2)) * 0.5;
     
     if(ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0){
+        
         ball.velocityY = - ball.velocityY;
         ballFX.play();
+        if(strikeStatus === true){
+            strike();
+        }
+
     }
     //Identificar se é o jogador ou o pc
     let player = (ball.x < canvas.width/2) ? user : pc;
+
+
+    if(user.y > (5*canvas.height/5) || user.y  < 10){
+        user.y = -1;
+    }
 
     if(collision(ball,player)){
 
@@ -182,24 +220,19 @@ function update(){
     }
 
 }
-///////////////////////////////////
+
+
+///Renderizador do jogo
 function render_game(){
 
     drawRect(0,0,canvas.width,canvas.height, "#003380");
-
     drawRect(user.x,user.y,user.width,user.height,user.color);
-
     drawRect(pc.x,pc.y,pc.width,pc.height,pc.color);
-  
-   
-
-    drawText("P1 - "+user.score,canvas.width/4,canvas.height/15,"WHITE");
-    drawText("COM - "+pc.score,3*canvas.width/4,canvas.height/15,"WHITE");
     drawCircle(ball.x,ball.y,ball.radius,ball.color);
     drawNet();
 }
 
-
+///Jogo
 function game(){
     if(!paused){
         update();
@@ -207,6 +240,7 @@ function game(){
     render_game();
 }
 
-const frame = 50;
+//Frames e taxa de atualização dos quadros do jogo
+const frame = 65;
 
 let game_loop = setInterval(game, 1000/frame);

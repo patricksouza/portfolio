@@ -1,7 +1,9 @@
 body{
 	background: #232526;  /* fallback for old browsers */
 }
-
+.ul-custom{
+    color: white;
+}
 .border{
     border-color: grey !important;
     border-style: solid;
@@ -19,4 +21,16 @@ body{
 #status{
 	color: white;
 	font-weight: bold;
+}
+
+.left{
+    margin-right: 100px;
+}
+
+.right{
+    margin-left: 300px;
+}
+
+.left,.right{
+    padding: 5px;
 }

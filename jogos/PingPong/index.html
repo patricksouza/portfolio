@@ -1,17 +1,36 @@
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Pong</title>
-        <link rel="stylesheet" type="text/css" href="style.css">
-    </head>
-    <body>
-        <!--canvas é usado para desenhar gráficos na pagina-->
-        <center>
-            <h2 id="status"></h2>
-        	<div class="border"> 
-        	<canvas id="pong" width="600" height="400" style="background-color:black;"></canvas>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pong</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <!--canvas é usado para desenhar gráficos na pagina-->
+
+    <center>
+        <ul class="ul-custom">
+            <!-- <li>Aperte <b>ESPAÇO</b> para usar mais força</li> -->
+        </ul>
+        <div class="">
+            <button id="btnStatus" onclick="pauseGame(true)">Jogar</button>
         </div>
-    	</center>
-        <script src="pong.js"></script>
-    </body>
+        <button id="scoreP1" class="left" value="">0</button>
+        <button id="scoreCom" class="right" value="">0</button>
+        <br>
+        <br>
+        <div class="border">
+            <canvas id="pong" width="600" height="400" style="background-color:black;"></canvas>
+        </div>
+        <!-- <div>
+                <button onclick="moveBtn(-5)">↑</button>
+                <button onclick="moveBtn(5)">↓</button>
+            </div> -->
+        <br>
+    </center>
+
+    <script src="pong.js"></script>
+</body>
+
 </html>
