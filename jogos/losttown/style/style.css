@@ -12,7 +12,6 @@ body{
     align-items: center;
     width: 100vw;
     height: 100vh;
-   
 }
 
 #text{
@@ -21,10 +20,9 @@ body{
 }
 
 .container-text{
-    width:30%;
-    height: 40%;
-    max-width: 80%;
-    margin-left: 50%;
+    background-color: #F2F2F2;
+    width:80%;
+    max-width: 40%;
     padding: 25px;
     padding-bottom: 10px;
     border-radius:5px;
@@ -34,26 +32,38 @@ body{
 
 
 .btn-grid{
+    align-items: center;
     display: grid;
     grid-template-columns: repeat(2,auto);
     gap:10px;
     margin-top: 80px;
+    font-size: 12px;
 }
 
 
-.btn{
-    background-color: none;
+.btn-good,.btn-neutral,.btn-evil{
     background:none;
-    border: 2px solid grey;
     padding:5px 10px;
-    color: black;
     outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    color: white;
 }
 
-.btn:hover{
-    background-color:black;
-    color:white; 
-    opacity: 0.92;
+.btn-good{
+    background-color: #8FBC8F;
+}
+
+.btn-neutral{
+    background-color:  #C0C0C0;
+}
+
+.btn-evil{
+    background-color: #B22222;
+}
+
+.btn-good:hover,.btn-neutral:hover,.btn-evil:hover{
+    opacity: 0.90;
 }
 
 
