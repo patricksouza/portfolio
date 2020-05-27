@@ -28,7 +28,7 @@ function showTextNode(textNodeIndex) {
 
     textElement.innerText = textNode.text;
     buttonClickFx.play();
-    buttonClickFx.volume = 0.2;
+    buttonClickFx.volume = 0.5;
     while (optionButtonsElement.firstChild) {
         optionButtonsElement.removeChild(optionButtonsElement.firstChild);
     }
@@ -244,7 +244,7 @@ const textNodes = [
                 text: 'Se preparar para a viagem. Ir ao porto.',
                 //requiredState: (currentState) => currentState.details,
                 setState: {},
-                nextText: 9
+                nextText: 10
             }
         ]
     },
